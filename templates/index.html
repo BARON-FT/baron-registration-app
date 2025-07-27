@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="fr"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription | BARON ENTERPRISE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --noir: #050505;
+            --blanc: #ffffff;
+            --or: #FFD700;
+            --gris-clair: #f0f0f0;
+            --gris-fonce: #121212;
+            --ombre-or: rgba(255, 215, 0, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--noir);
+            color: var(--blanc);
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .main-title {
+            text-align: center;
+            font-size: 2.8em;
+            font-weight: 800;
+            color: var(--or);
+            margin-bottom: 20px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: var(--gris-clair);
+        }
+        .section-title {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--or);
+            padding-left: 15px;
+        }
+
+        /* Plans d'accompagnement */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .plan-card {
+            background: var(--gris-fonce);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #222;
+        }
+        .plan-card h3 { color: var(--or); font-size: 1.5em; margin-bottom: 10px; }
+        .plan-card .price { font-size: 1.2em; font-weight: 600; margin-bottom: 20px; }
+        .plan-card .price span { font-size: 0.8em; font-weight: 300; color: #aaa; }
+        .plan-card ul { list-style: none; padding-left: 0; }
+        .plan-card li { margin-bottom: 10px; padding-left: 25px; position: relative; }
+        .plan-card li::before {
+            content: '✓';
+            color: var(--or);
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+        }
+
+        /* Formulaire */
+        .form-container {
+            background: var(--gris-fonce);
+            padding: 40px;
+            border-radius: 10px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: var(--noir);
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: var(--blanc);
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--or);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--or);
+            color: var(--noir);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px var(--ombre-or);
+        }
+
+        /* Section Résultat / ID Card */
+        #result-section { display: none; margin-top: 40px; text-align: center; }
+        .id-card {
+            background: #1a1a1a;
+            border: 2px solid var(--or);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 20px auto;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .id-card .id-header { font-size: 1.5em; font-weight: 800; color: var(--or); letter-spacing: 1px; }
+        .id-card .id-name { font-size: 1.8em; margin: 15px 0; }
+        .id-card .id-label { color: #aaa; font-size: 0.9em; }
+        .id-card .id-value { font-size: 2.2em; font-weight: 700; color: var(--or); margin-top: 5px; }
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--or);
+            color: var(--or);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        .download-btn:hover { background: var(--or); color: var(--noir); }
+        .error-message { color: #ff4d4d; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Devenez Membre</h1>
+        <p class="subtitle">Rejoignez l'écosystème BARON ENTERPRISE et obtenez votre identifiant unique.</p>
+
+        <!-- Section Explicative des Plans -->
+        <section id="plans">
+            <h2 class="section-title">Choisissez votre niveau d'accompagnement</h2>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h3>Gratuit</h3>
+                    <div class="price">0 FCFA <span>/ mois</span></div>
+                    <ul>
+                        <li>Accès à la communauté</li>
+                        <li>Newsletter d'information</li>
+                        <li>ID de membre unique</li>
+                    </ul>
+                </div>
+                <div class="plan-card">
+                    <h3>Standard</h3>
+                    <div class="price">10.000 FCFA <span>/ mois</span></div>
+                    <ul>
+                        <li>Tous les avantages Gratuit</li>
+                        <li>Accès aux formations de base</li>
+                        <li>Support prioritaire par email</li>
+                    </ul>
+                </div>
+                <div class="plan-card">
+                    <h3>Premium</h3>
+                    <div class="price">25.000 FCFA <span>/ mois</span></div>
+                    <ul>
+                        <li>Tous les avantages Standard</li>
+                        <li>Accès à toutes les formations</li>
+                        <li>Coaching de groupe mensuel</li>
+                        <li>Accès anticipé aux opportunités</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulaire d'inscription -->
+        <section id="registration-form">
+            <div class="form-container">
+                <h2 class="section-title">Formulaire d'inscription</h2>
+                <form id="member-form">
+                    <div class="form-group">
+                        <label for="full_name">Nom &amp; Prénom</label>
+                        <input type="text" id="full_name" name="full_name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">Numéro WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (Optionnel)</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="subsidiary">Filiale d'intérêt</label>
+                        <select id="subsidiary" name="subsidiary" required="">
+                            <option value="Nexus Academy">Nexus Academy (Formation &amp; Business)</option>
+                            <option value="Futuro_TECH">Futuro_TECH (Solutions Digitales)</option>
+                            <option value="LifeBoost AFRICA">LifeBoost AFRICA (Santé &amp; Bien-être)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscription_level">Niveau d'accompagnement</label>
+                        <select id="subscription_level" name="subscription_level" required="">
+                            <option value="Gratuit">Gratuit</option>
+                            <option value="Standard">Standard (10.000 F/mois)</option>
+                            <option value="Premium">Premium (25.000 F/mois)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Obtenir mon ID</button>
+                    <p class="error-message" id="error-message" style="display:none;"></p>
+                </form>
+            </div>
+        </section>
+
+        <!-- Section Résultat -->
+        <section id="result-section">
+            <h2 class="section-title">Inscription Réussie !</h2>
+            <p>Conservez précieusement votre fiche. Vous pouvez faire une capture d'écran.</p>
+            <div class="id-card" id="id-card">
+                <div class="id-header">BARON ENTERPRISE</div>
+                <p id="card-name" class="id-name">NOM DU MEMBRE</p>
+                <div class="id-label">VOTRE IDENTIFIANT UNIQUE</div>
+                <div id="card-id" class="id-value">BE0000X</div>
+            </div>
+            <a href="#" id="download-btn" class="download-btn">Télécharger ma fiche (PNG)</a>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('member-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const errorMessage = document.getElementById('error-message');
+            const resultSection = document.getElementById('result-section');
+            const submitButton = form.querySelector('.submit-btn');
+
+            const formData = {
+                full_name: form.full_name.value,
+                whatsapp: form.whatsapp.value,
+                email: form.email.value,
+                subsidiary: form.subsidiary.value,
+                subscription_level: form.subscription_level.value
+            };
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Génération en cours...';
+            errorMessage.style.display = 'none';
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Une erreur est survenue.');
+                }
+
+                // Afficher la carte d'ID
+                document.getElementById('card-name').textContent = data.full_name;
+                document.getElementById('card-id').textContent = data.baron_id;
+                resultSection.style.display = 'block';
+                form.style.display = 'none'; // Cacher le formulaire
+                document.getElementById('registration-form').querySelector('.section-title').style.display = 'none';
+                
+                // Faire défiler jusqu'à la carte
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Obtenir mon ID';
+            }
+        });
+
+        // La fonction de téléchargement nécessite une librairie comme html2canvas.
+        // Pour l'instant, ce bouton ne fait rien, mais le code est prêt.
+        document.getElementById('download-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert("La fonctionnalité de téléchargement direct sera bientôt disponible. En attendant, veuillez faire une capture d'écran de votre fiche.");
+            // Pour activer le téléchargement, vous ajouteriez la librairie html2canvas
+            // et utiliseriez un code comme celui-ci :
+            /*
+            const idCardElement = document.getElementById('id-card');
+            html2canvas(idCardElement).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'fiche-id-baron-enterprise.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+            */
+        });
+    </script>
+
+
+</body></html>
