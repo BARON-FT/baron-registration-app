@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription | BARON ENTERPRISE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --noir: #050505; --blanc: #ffffff; --or: #FFD700; --gris-clair: #f0f0f0;
+            --gris-fonce: #121212; --ombre-or: rgba(255, 215, 0, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif; background-color: var(--noir);
+            color: var(--blanc); padding: 40px 20px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .main-title { text-align: center; font-size: 2.8em; font-weight: 800; color: var(--or); margin-bottom: 20px; }
+        .subtitle { text-align: center; font-size: 1.2em; font-weight: 300; margin-bottom: 60px; color: var(--gris-clair); }
+        .section-title { font-size: 2em; font-weight: 700; margin-bottom: 40px; border-left: 4px solid var(--or); padding-left: 15px; }
+
+        /* --- NOUVELLE GRILLE DE PLANS --- */
+        .plans-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px; margin-bottom: 60px;
+        }
+        .plan-card {
+            background: var(--gris-fonce); padding: 30px; border-radius: 10px;
+            border: 1px solid #222; display: flex; flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .plan-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .plan-card.popular { border-color: var(--or); position: relative; overflow: hidden; }
+        .plan-card.popular::before {
+            content: 'POPULAIRE'; position: absolute; top: 15px; right: -30px;
+            background: var(--or); color: var(--noir); padding: 5px 30px;
+            transform: rotate(45deg); font-size: 0.8em; font-weight: 700;
+        }
+        .plan-card h3 { color: var(--or); font-size: 1.5em; margin-bottom: 10px; }
+        .plan-card .price { font-size: 1.8em; font-weight: 700; margin-bottom: 25px; }
+        .plan-card .price span { font-size: 0.7em; font-weight: 400; color: #aaa; }
+        .plan-card ul { list-style: none; padding-left: 0; margin-bottom: 30px; flex-grow: 1; }
+        .plan-card li { margin-bottom: 12px; padding-left: 25px; position: relative; line-height: 1.5; }
+        .plan-card li::before {
+            content: '✓'; color: var(--or); position: absolute;
+            left: 0; font-weight: 700;
+        }
+
+        /* Formulaire */
+        .form-container { background: var(--gris-fonce); padding: 40px; border-radius: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px; background: var(--noir);
+            border: 1px solid #333; border-radius: 5px; color: var(--blanc);
+            font-size: 1em; font-family: 'Poppins', sans-serif;
+        }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--or); }
+        .submit-btn {
+            width: 100%; padding: 15px; background: var(--or); color: var(--noir);
+            border: none; border-radius: 5px; font-size: 1.2em; font-weight: 700;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--ombre-or); }
+
+        /* Section Résultat / ID Card */
+        #result-section { display: none; margin-top: 40px; text-align: center; }
+        .id-card {
+            background: #1a1a1a; border: 2px solid var(--or); border-radius: 15px;
+            padding: 30px; max-width: 400px; margin: 20px auto;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .id-card .id-header { font-size: 1.5em; font-weight: 800; color: var(--or); letter-spacing: 1px; }
+        .id-card .id-name { font-size: 1.8em; margin: 15px 0; }
+        .id-card .id-label { color: #aaa; font-size: 0.9em; }
+        .id-card .id-value { font-size: 2.2em; font-weight: 700; color: var(--or); margin-top: 5px; }
+        .download-btn {
+            display: inline-block; margin-top: 20px; padding: 10px 20px;
+            background: transparent; border: 2px solid var(--or); color: var(--or);
+            text-decoration: none; border-radius: 5px; font-weight: 600;
+        }
+        .download-btn:hover { background: var(--or); color: var(--noir); }
+        .error-message { color: #ff4d4d; margin-top: 15px; display: none; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Devenez Membre</h1>
+        <p class="subtitle">Rejoignez l'écosystème BARON ENTERPRISE et obtenez votre identifiant unique.</p>
+
+        <!-- SECTION DES PLANS ENTIÈREMENT MISE À JOUR -->
+        <section id="plans">
+            <h2 class="section-title">Choisissez votre niveau d'accompagnement</h2>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h3>Freemium</h3>
+                    <div class="price">Gratuit</div>
+                    <ul>
+                        <li>Accès aux ressources de base</li>
+                        <li>Découverte de la communauté</li>
+                        <li>Réductions de -20% sur tous les services</li>
+                        <li>Idéal pour tester l’écosystème</li>
+                    </ul>
+                </div>
+                <div class="plan-card popular">
+                    <h3>Standard</h3>
+                    <div class="price">25 000 <span>FCFA / mois</span></div>
+                    <ul>
+                        <li>Accès complet aux accompagnements</li>
+                        <li>Accompagnement individuel adapté</li>
+                        <li>Réductions de -20% sur tous les services</li>
+                        <li>Déblocage d’opportunités</li>
+                    </ul>
+                </div>
+                <div class="plan-card">
+                    <h3>Premium</h3>
+                    <div class="price">50 000 <span>FCFA / mois</span></div>
+                    <ul>
+                        <li>Tout le Plan Standard inclus</li>
+                        <li>Coaching personnalisé</li>
+                        <li>Accès prioritaire aux formations</li>
+                        <li>Avantages exclusifs LifeBoost</li>
+                    </ul>
+                </div>
+                <div class="plan-card">
+                    <h3>Élite</h3>
+                    <div class="price">100 000 <span>FCFA / mois</span></div>
+                    <ul>
+                        <li>Tout le Plan Premium inclus</li>
+                        <li>Accompagnement stratégique haut niveau</li>
+                        <li>Accès illimité aux formations & ateliers</li>
+                        <li>Positionnement VIP et partenariats</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulaire d'inscription -->
+        <section id="registration-form">
+            <div class="form-container">
+                <h2 class="section-title">Formulaire d'inscription</h2>
+                <form id="member-form">
+                    <div class="form-group">
+                        <label for="full_name">Nom Complet</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">Numéro WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (Optionnel)</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="subsidiary">Filiale d'intérêt principal</label>
+                        <select id="subsidiary" name="subsidiary" required>
+                            <option value="">-- Choisissez une filiale --</option>
+                            <option value="Nexus Academy">Nexus Academy (Formation & Business)</option>
+                            <option value="Futuro_TECH">Futuro_TECH (Solutions Digitales)</option>
+                            <option value="LifeBoost AFRICA">LifeBoost AFRICA (Santé & Bien-être)</option>
+                        </select>
+                    </div>
+                    <!-- LISTE DÉROULANTE DES NIVEAUX MISE À JOUR -->
+                    <div class="form-group">
+                        <label for="subscription_level">Niveau d'accompagnement</label>
+                        <select id="subscription_level" name="subscription_level" required>
+                            <option value="">-- Choisissez un niveau --</option>
+                            <option value="Freemium">Freemium (Gratuit)</option>
+                            <option value="Standard">Standard (25.000 F/mois)</option>
+                            <option value="Premium">Premium (50.000 F/mois)</option>
+                            <option value="Élite">Élite (100.000 F/mois)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Obtenir mon ID</button>
+                    <p id="error-message" class="error-message"></p>
+                </form>
+            </div>
+        </section>
+
+        <!-- Section Résultat -->
+        <section id="result-section">
+            <h2 class="section-title">Inscription Réussie !</h2>
+            <p>Conservez précieusement votre fiche. Vous pouvez faire une capture d'écran ou la télécharger.</p>
+            <div class="id-card" id="id-card">
+                <div class="id-header">BARON ENTERPRISE</div>
+                <p id="card-name" class="id-name">NOM DU MEMBRE</p>
+                <div class="id-label">VOTRE IDENTIFIANT UNIQUE</div>
+                <div id="card-id" class="id-value">BE0000X</div>
+            </div>
+            <a href="#" id="download-btn" class="download-btn">Télécharger ma fiche (PNG)</a>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('member-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const errorMessage = document.getElementById('error-message');
+            const resultSection = document.getElementById('result-section');
+            const submitButton = form.querySelector('.submit-btn');
+            const registrationSection = document.getElementById('registration-form');
+            const plansSection = document.getElementById('plans');
+
+            const formData = {
+                full_name: form.full_name.value,
+                whatsapp: form.whatsapp.value,
+                email: form.email.value,
+                subsidiary: form.subsidiary.value,
+                subscription_level: form.subscription_level.value
+            };
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Génération en cours...';
+            errorMessage.style.display = 'none';
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Une erreur est survenue.');
+                }
+
+                document.getElementById('card-name').textContent = formData.full_name;
+                document.getElementById('card-id').textContent = data.baron_id;
+                
+                plansSection.style.display = 'none';
+                registrationSection.style.display = 'none';
+                resultSection.style.display = 'block';
+                
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Obtenir mon ID';
+            }
+        });
+
+        document.getElementById('download-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const idCardElement = document.getElementById('id-card');
+            const baronId = document.getElementById('card-id').textContent;
+            const memberName = document.getElementById('card-name').textContent.replace(/\s+/g, '_');
+
+            html2canvas(idCardElement, {
+                backgroundColor: '#1a1a1a',
+                scale: 2 // Améliore la qualité de l'image
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Fiche_Membre_${memberName}_${baronId}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+    </script>
+</body>
+</html>
