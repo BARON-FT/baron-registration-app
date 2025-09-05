@@ -11,7 +11,7 @@ ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', '0bjectif_10k')
 
 # --- NOUVELLE CONNEXION À RAILWAY POSTGRESQL ---
 # Remplacez ces valeurs par vos credentials Railway
-DB_HOST = os.environ.get('DB_HOST', 'postgresql://postgres:DiTMltdlgRWUcCOqQLvQiNzpVhyrihGi@caboose.proxy.rlwy.net:13497/railway')
+DB_HOST = os.environ.get('DB_HOST', 'caboose.proxy.rlwy.net')
 DB_PORT = os.environ.get('DB_PORT', '5432')
 DB_NAME = os.environ.get('DB_NAME', 'railway')
 DB_USER = os.environ.get('DB_USER', 'postgres')
@@ -113,3 +113,4 @@ def logout():
 if __name__ == '__main__':
 
     app.run(debug=True)
+
